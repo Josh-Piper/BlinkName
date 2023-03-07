@@ -1,0 +1,170 @@
+const pin_t MY_LED = D7;
+const pin_t MY_BUTTON = D2;
+const int ONE_UNIT_IN_MS = 100;
+SYSTEM_THREAD(ENABLED);
+
+void setup() {
+	pinMode(MY_LED, OUTPUT);
+	pinMode(MY_BUTTON, INPUT);
+	
+	// https://docs.particle.io/hardware/expansion/about-serial/
+	// Will show how to connect Mac to serial
+	Serial.begin(9600);
+}
+
+void dot_led() {
+    digitalWrite(MY_LED, HIGH);
+
+	delay(ONE_UNIT_IN_MS);
+}
+
+void dash_led() {
+    digitalWrite(MY_LED, HIGH);
+
+	delay(ONE_UNIT_IN_MS * 3);
+}
+
+void space_between_one_character() {
+	digitalWrite(MY_LED, LOW);
+    	
+	delay(ONE_UNIT_IN_MS);
+}
+
+void space_between_characters() {
+	digitalWrite(MY_LED, LOW);
+    	
+	delay(ONE_UNIT_IN_MS * 3);
+}
+
+void space_between_words() {
+	digitalWrite(MY_LED, LOW);
+    	
+	delay(ONE_UNIT_IN_MS * 7);
+}
+
+void blink_j() {
+    dot_led();
+    space_between_one_character();
+    
+    dash_led();
+    space_between_one_character();
+    dash_led();
+    space_between_one_character();
+    dash_led();
+}
+
+void blink_o() {
+    dash_led();
+    space_between_one_character();
+    dash_led();
+    space_between_one_character();
+    dash_led();
+}
+
+void blink_s() {
+    dot_led();
+    space_between_one_character();
+    dot_led();
+    space_between_one_character();
+    dot_led();
+}
+
+void blink_h() {
+    dot_led();
+    space_between_one_character();
+    dot_led();
+    space_between_one_character();
+    dot_led();
+    space_between_one_character();
+    dot_led();
+}
+
+void blink_josh() {
+    blink_j();
+    space_between_characters();
+    blink_o();
+    space_between_characters();
+    blink_s();
+    space_between_characters();
+    blink_h();
+    space_between_words();
+}
+
+void blink_p() {
+    dot_led();
+    space_between_one_character();
+    dash_led();
+    space_between_one_character();
+    dash_led();
+    space_between_one_character();
+    dot_led();
+}
+
+void blink_i() {
+    dot_led();
+    space_between_one_character();
+    dot_led();
+}
+
+void blink_e() {
+    dot_led();
+}
+
+void blink_r() {
+    dot_led();
+    space_between_one_character();
+    dash_led();
+    space_between_one_character();
+    dot_led();
+}
+
+void blink_piper() {
+    blink_p();
+    space_between_characters();
+    blink_i();
+    space_between_characters();
+    blink_p();
+    space_between_characters();
+    blink_e();
+    space_between_characters();
+    blink_r();
+
+    space_between_words();
+}
+
+void loop() {
+    int buttonState = digitalRead(MY_BUTTON);
+    Serial.printlnf("Hello %d", buttonState);
+    
+    // On button press
+    if (buttonState == LOW) {
+      blink_josh();
+      digitalWrite(MY_LED, LOW);
+    } else {
+    // otherwise
+    // turn the LED Off
+      digitalWrite(MY_LED, LOW);
+    }
+    
+    delay(ONE_UNIT_IN_MS * 3);
+}
+
+// 1.) First name in Morse Code - repeated (long blink and short blink)
+//    Where unit = 0.5 seconds
+//    - Dot is 1 unit
+//    - Dash is 3 units
+//    - Space between one character is 1 unit
+//    - Space between characters is 3 units
+//    - Space between words are seven units
+
+// Josh
+// J -> dot dash dash dash
+// O -> dash dash dash
+// S -> dot dot dot
+// H -> dot dot dot dot
+// Piper
+// P - dot dash dash dot
+// I -> dot dot
+// P -> dot dash dash dot
+// E -> dot
+// R -> dot dash dot
